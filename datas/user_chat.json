@@ -1,0 +1,25 @@
+{
+    "001": [
+        {
+            "name_group": "group1"
+        },
+        {
+            "name_group": "group2"
+        }
+    ],
+    "002": [
+        {
+            "name_group": "group1"
+        }
+    ],
+    "003": [
+        {
+            "name_group": "group1"
+        }
+    ],
+    "004": [
+        {
+            "name_group": "group1"
+        }
+    ]
+}
