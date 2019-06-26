@@ -1,33 +1,50 @@
-var start;
-// Dynamic function
-function Dynamic() {
-    var d = new Date();
-    var t = d.toLocaleTimeString();
-    // $("#demo").html(t);
+var json = $.getJSON("datas/users.json",
+  function(json) {
+    var name = document.getElementById('nameSession').value;
+    var pas = document.getElementById('pasSession').value;
+    // console.log(json);
+    var offline = {
+      "name":name,
+      "password":pas,
+      "status":"offline"
+    };
+    function setOffline(json, offline){
+      
+    }
+    function updateJSON(json, offline) {
+      return json.map(function(item) {
+      return (item.name === offline.name && item.password === offline.pas) ? offline : item;
+      });
+    }
+    json = updateJSON(json, offline);
+    console.log(name+pas);
+  },
+);
+
+
+// console.log(json);
+
+function reload() {
+    $('#reload').load(location.href + ' #time');
+    $('#time').load(location.href + ' #load');
 }
-// Static function
-function Static() {
-    var d = new Date();
-    var t = d.toLocaleTimeString();
-    $('#count').html(t);
+// if user login the data will be online
+function setOnline(id, newUsername) {
+    for (var i = 0; i < jsonObj.length; i++) {
+        if (jsonObj[i].Id === id) {
+            jsonObj[i].Username = newUsername;
+            return;
+        }
+    }
 }
 
-// function to start Dynamic
-$(document).ready(function () {
-    start = setInterval("Dynamic()", 1000);
-});
-// function to stop Dynamic
-function stop() {
-    clearInterval(start);
-}
-function checkCookie() {
-    var username = getCookie("username");
-    if (username != "") {
-     alert("Welcome again " + username);
-    } else {
-      username = prompt("Please enter your name:", "");
-      if (username != "" && username != null) {
-        setCookie("username", username, 365);
-      }
+// set time to offline when the time go throw 5sec
+function setOffine(id, newUsername) {
+    for (var i = 0; i < jsonObj.length; i++) {
+        if (jsonObj[i].Id === id) {
+            jsonObj[i].Username = newUsername;
+            return;
+        }
     }
-  } 
+}
+setInterval("reload();", 500);

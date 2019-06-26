@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="asset/css/style.css">
+
 <?php
 session_start();
 class Login
@@ -6,6 +7,7 @@ class Login
     private $name;
     private $password;
     private $id;
+    private $name_group;
     public function Login()
     {
         // call class to manage function
@@ -17,20 +19,19 @@ class Login
         if ($_SESSION["username"] != null && $_SESSION["password"] != null) {
             $this->name = $_SESSION["username"];
             $this->password = $_SESSION["password"];
+            $this->name_group = $_COOKIE['name_group'];
+            echo '<input type="hidden" id="nameSession" value="' . $this->name . '"/>';
+            echo '<input type="hidden" id="pasSession" value="' . $this->password . '"/>';
             //call function to display
             // echo date('t').date('F').date('y').date('h')."<br/>";
 
             echo '<div class="auth">';
             $user->getUser($this->name, $this->password);
             echo '</div>';
+
             echo '<div class="group_online">';
             $user->Online('online');
             echo '</div>';
-
-            echo '<div class="all_user">';
-            // $user->allUser();
-            echo '</div>';
-
 
             echo '<div class="groupchat">';
             $userC->getGroupUser($user->getChatId());
@@ -39,13 +40,14 @@ class Login
             // $chat->allChat();
             // echo '<br/><b>All Chat</b><hr/>';
 
-            $chat->createChate();
+            // $chat->createChate();
+            $chat->AddUserToGroup();
             echo '<br/><b>Chating</b><hr/>';
 
-            $chat->showchat("group1");
-            echo '<br/><b>create Chat</b><hr/>';
+            $chat->showchat($this->name_group);
+            echo '<br/><b>show Chat</b><hr/>';
 
-            $chat->ChatTo($this->name, 'group1');
+            $chat->ChatTo($this->name, $this->name_group);
             echo '<br/><b>chat to group </b><hr/>';
         }
         // code need to assign value
@@ -210,25 +212,26 @@ class UserChat extends File
     }
     public function getGroupUser($id)
     {
+        $function = [];
         $open_file = file_get_contents('datas/' . $this->name . '.json');
         $this->data = json_decode($open_file);
+        
         foreach ($this->data as $key => $value) {
             if ($id == $key) {
                 foreach ($this->data->$key as $n => $val) {
-                    echo '<b id="001"></b>';
-                    echo '<a href="" onclick("' . $val->name_group . '();")><p id="' . $val->name_group . '">' . $val->name_group . '</p></a>';
-                    // echo '<script>document.getElementById("'.$val->name_group.'").addEventListener(click, function); </script>';
-                    echo '<script>
-                    var group = document.getElementById("' . $val->name_group . '").value;
-                    group.innerHTML=document.getElementById("001");
-                    function ' . $val->name_group . '(){
-                        document.cookie = "chat_name=' . $val->name_group . '";
-                    } 
-                    }
-                    </script>';
+                    echo '<a ONCLICK="' . $val->name_group . '()"><p>' . $val->name_group . '</p></a>';
+                    array_push($function, $val->name_group);
                 }
             }
         }
+
+        echo '<script>';
+        foreach ($function as $chat => $vale) {
+            echo 'function ' . $vale . '(){
+                document.cookie = "name_group=' . $vale . '";
+            }';
+        }
+        echo '</script>';
     }
 }
 
@@ -246,19 +249,7 @@ class Chat extends File
         $this->username = $username;
     }
 
-    public function getAllChat()
-    {
-        $open_file = file_get_contents('datas/' . $this->name . '.json');
-        $data = json_decode($open_file);
-        echo "<div style='color:blue'><br/><b>File name: " . $this->name . "</b>";
-        foreach ($data as $key => $value) {
-            echo "<br/>name group <b>$key</b>";
-            foreach ($data->$key as $n => $val) {
-                echo "<br/>" . $val->name . ":( " . $val->chat . " )";
-            }
-        }
-        echo "</div>";
-    }
+    // list all group name
     public function allChat()
     {
         $open_file = file_get_contents('datas/' . $this->name . '.json');
@@ -268,6 +259,8 @@ class Chat extends File
             echo "<br/>name group <b>$key</b>";
         }
     }
+
+    // chat to specific group
     public function ChatTo($username, $togroup)
     {
         $this->togroup = $togroup;
@@ -307,6 +300,8 @@ class Chat extends File
             }
         }
     }
+
+    // show content chat
     public function showchat($togroup)
     {
         echo '<div id="reload"><div id="time">';
@@ -324,36 +319,40 @@ class Chat extends File
         }
         echo '</div></div>';
     }
-
-    public function createChate()
+    // create new chat
+    public function AddUserToGroup()
     {
-        echo '<div class="create_chat">
-        <form action="" method="POST">
-            <input type="text" name="name_group" value="" placeholder="Name group"><br/>';
-        $create_chat = file_get_contents('datas/users.json');
-        $open_chat = json_decode($create_chat);
-        foreach ($open_chat as $key => $value) {
-            foreach ($open_chat->$key as $n => $val) {
-                // if($val->chatID=$_SESSION['id']){
-                //     echo '<input style="display:none" type="checkbox" name="' . $val->chatID . '" value="' . $val->chatID . '">' . $val->name . '<br/>';
-                // }else
-                echo '<input type="checkbox" name="' . $val->chatID . '" value="' . $val->chatID . '">' . $val->name . '<br/>';
+        echo '
+        <form action="index.php" method="POST">
+        <h5>Create Group</h5>
+        <article>Enter Group Name: </article>
+        <input type="text" name= "name_group"/>
+        <article>Add People: </article>';
+        $open_file = file_get_contents('datas/users.json');
+        $read_file = json_decode($open_file);
+        $userID = new User($_SESSION["username"]);
+        foreach ($read_file as $key => $value) {
+            foreach ($read_file->$key as $n => $val) {
+                echo "<input type='checkbox' value='$val->chatID' name='$val->chatID'/>$val->name<br/>";
             }
         }
-        echo '<br/><input type="submit" name="submit" value="create_chat">
-        </form></div>';
-        $_GET['group_name'] = $_POST['group_name'];
-        $file = file_get_contents('datas/user_chat.json');
-        $data = json_decode($file, true);
-        $_POST[$_SESSION['id']] = $_SESSION['id'];
-        unset($_POST['group_name']);
+        echo '      
+           <input type="submit" name="submit" value="Create Group Chat"/>
+          </form>';
+
+
         if (isset($_POST['submit'])) {
+            $file = file_get_contents('datas/user_chat.json');
+            $data = json_decode($file, true);
+            $_GET['name_group'] = $_POST['name_group'];
+            $_POST[$userID->getChatId()] = $userID->getChatId();
+            unset($_POST['name_group']);
             unset($_POST['submit']);
             $user = array_values($_POST);
             foreach ($user as $id) {
                 array_push($data[$id], $_GET);
             }
-            file_put_contents("datas/user_chat.json", json_encode($data, JSON_PRETTY_PRINT));
+            file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
         }
     }
 }
@@ -379,31 +378,4 @@ echo '</div>';
 ?>
 
 <script src="asset/js/jquery.min.js"></script>
-<script>
-    var file = $.getJSON("datas/users.json");
-
-    function reload() {
-        $('#reload').load(location.href + ' #time');
-        $('#time').load(location.href + ' #load');
-    }
-    // if user login the data will be online
-    function setUsername(id, newUsername) {
-        for (var i = 0; i < jsonObj.length; i++) {
-            if (jsonObj[i].Id === id) {
-                jsonObj[i].Username = newUsername;
-                return;
-            }
-        }
-    }
-
-    // set time to offline when the time go throw 5sec
-    function setUsername(id, newUsername) {
-        for (var i = 0; i < jsonObj.length; i++) {
-            if (jsonObj[i].Id === id) {
-                jsonObj[i].Username = newUsername;
-                return;
-            }
-        }
-    }
-    setInterval("reload();", 500);
-</script>
+<script src="asset/js/main.js"></script>

@@ -1,108 +1,30 @@
 {
     "group1": [
         {
-            "name": "user_1",
-            "chat": "hello world",
-            "image": "random.jpg",
-            "date": "2019\\2604"
-        },
-        {
-            "chat": "gg",
-            "name": "phearum",
-            "date": "Wednesday",
+            "chat": "Hello",
+            "name": "fake",
+            "date": "2019\/06\/25",
             "image": "phearum.jpg"
         },
         {
-            "chat": "hello date",
+            "chat": "Hello",
             "name": "phearum",
-            "date": "06\/June\/19\/30",
+            "date": "2019\/06\/25",
             "image": "phearum.jpg"
-        },
-        {
-            "chat": "gg",
-            "name": "mengthong",
-            "date": "04\/June\/19\/30",
-            "image": "mengthong.jpg"
-        },
-        {
-            "chat": "hello",
-            "name": "phearum",
-            "date": "04\/June\/19\/30",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "my name is NOP Phearum",
-            "name": "phearum",
-            "date": "04\/June\/19\/30",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "this is myself",
-            "name": "mengthong",
-            "date": "2019\/06\/07",
-            "image": "mengthong.jpg"
-        },
-        {
-            "chat": "yes it me",
-            "name": "mengthong",
-            "date": "2019\/06\/07",
-            "image": "mengthong.jpg"
-        },
-        {
-            "chat": "ggggg",
-            "name": "phearum",
-            "date": "2019\/06\/07",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "hello my name is NOP pHEARUM",
-            "name": "phearum",
-            "date": "2019\/06\/10",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "hello",
-            "name": "mengthong",
-            "date": "2019\/06\/10",
-            "image": "mengthong.jpg"
-        },
-        {
-            "chat": "hey a mok",
-            "name": "phearum",
-            "date": "2019\/06\/10",
-            "image": "phearum.jpg",
-            "001": "001"
-        },
-        {
-            "chat": "ok u win",
-            "name": "mengthong",
-            "date": "2019\/06\/10",
-            "image": "mengthong.jpg",
-            "002": "002"
         }
     ],
     "group2": [
         {
-            "chat": "Hello World",
-            "name": "user_custome"
-        }
-    ],
-    "new_one": [
+            "chat": "what are you doing",
+            "name": "phearum",
+            "date": "2019\/06\/25",
+            "image": "phearum.jpg"
+        },
         {
-            "chat": "Hello World",
-            "name": "user_custome"
-        }
-    ],
-    "new_two": [
-        {
-            "chat": "Hello World",
-            "name": "user_custome"
-        }
-    ],
-    "new_three": [
-        {
-            "chat": "Hello World",
-            "name": "user_custome"
+            "chat": "koo nas",
+            "name": "phearum",
+            "date": "2019\/06\/25",
+            "image": "phearum.jpg"
         }
     ]
 }
