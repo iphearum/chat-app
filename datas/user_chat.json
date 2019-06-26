@@ -7,15 +7,12 @@
             "name_group": "group2"
         },
         {
-            "name_group": "phearum"
+            "name_group": "hello1"
         }
     ],
     "002": [
         {
             "name_group": "group1"
-        },
-        {
-            "name_group": "phearum"
         }
     ],
     "003": [
@@ -27,5 +24,6 @@
         {
             "name_group": "group1"
         }
-    ]
+    ],
+    "": null
 }

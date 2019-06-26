@@ -2,23 +2,14 @@ var json = $.getJSON("datas/users.json",
   function(json) {
     var name = document.getElementById('nameSession').value;
     var pas = document.getElementById('pasSession').value;
-    // console.log(json);
-    var offline = {
-      "name":name,
-      "password":pas,
-      "status":"offline"
-    };
-    function setOffline(json, offline){
-      
+    for (var i = 0; i < json.user.length; i++) {
+      if (json.user[i].name === name && json.user[i].password === pas) {
+        console.log(json.user[i].status="offline");
+
+        break;
+      }
     }
-    function updateJSON(json, offline) {
-      return json.map(function(item) {
-      return (item.name === offline.name && item.password === offline.pas) ? offline : item;
-      });
-    }
-    json = updateJSON(json, offline);
-    console.log(name+pas);
-  },
+  }
 );
 
 

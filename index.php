@@ -37,10 +37,6 @@ class Login
             $userC->getGroupUser($user->getChatId());
             echo '</div>';
 
-            // $chat->allChat();
-            // echo '<br/><b>All Chat</b><hr/>';
-
-            // $chat->createChate();
             $chat->AddUserToGroup();
             echo '<br/><b>Chating</b><hr/>';
 
@@ -84,6 +80,25 @@ class Login
             }
         } //end auto login
     }
+    public function updateStatus(){
+        $open_file1 = file_get_contents('datas/users.json');
+        $read_file1 = json_decode($open_file1);
+        foreach ($read_file as $key => $value) {
+            foreach ($read_file->$key as $n => $val) {
+                if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
+                    $data['name']=$val->name;
+                    $data['email']=$val->email;
+                    $data['password']=$val->password;
+                    $data['chatID']=$val->chatID;
+                    $data['status']="offline";
+                    $data['profile']=$val->profile;
+                    array_push($read_file1[$val->name], $data);
+                    file_put_contents('datas/users.json', json_encode($read_file1, JSON_PRETTY_PRINT));
+                }
+            }
+        }
+    }
+
     public function Logout()
     {
         echo '<form action="index.php" method="POST">
@@ -353,6 +368,17 @@ class Chat extends File
                 array_push($data[$id], $_GET);
             }
             file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
+            
+            // add name_group to file chats.json
+            $filechat = file_get_contents('datas/chats.json');
+            $chat = json_decode($filechat, true);
+            $chatadd = array_values($_GET);
+            foreach ($chatadd as $id) {
+                array_push($chat[$id], $_GET);
+            }
+            $change = json_encode($chat);
+            $replace = str_replace('null','[]', $change);
+            file_put_contents('datas/chats.json', $replace);
         }
     }
 }
@@ -374,6 +400,7 @@ abstract class File
 $login = new Login();
 echo '<div class="center">';
 $login->logout();
+$login->updateStatus();
 echo '</div>';
 ?>
 
