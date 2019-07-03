@@ -8,6 +8,8 @@ class Login
     private $password;
     private $id;
     private $name_group;
+
+
     public function Login()
     {
         // call class to manage function
@@ -27,6 +29,7 @@ class Login
 
             echo '<div class="auth">';
             $user->getUser($this->name, $this->password);
+            $user->ToOnline();
             echo '</div>';
 
             echo '<div class="group_online">';
@@ -41,10 +44,25 @@ class Login
             echo '<br/><b>Chating</b><hr/>';
 
             $chat->showchat($this->name_group);
-            echo '<br/><b>show Chat</b><hr/>';
+            echo '<br/>';
 
             $chat->ChatTo($this->name, $this->name_group);
-            echo '<br/><b>chat to group </b><hr/>';
+
+
+            echo '<br/><form method="POST">
+                <input type="submit" name="update" value="update" id="update">
+            </form>';
+            if (isset($_POST['update'])) {
+                $user->ToOffline();
+                header('Location: index.php');
+            }
+            echo '<br/><form method="POST">
+                <input type="submit" name="online" value="online">
+            </form>';
+            if (isset($_POST['online'])) {
+                $user->ToOnline();
+                header('Location: index.php');
+            }
         }
         // code need to assign value
         else {
@@ -65,46 +83,46 @@ class Login
             $open_file = file_get_contents('datas/users.json');
             $read_file = json_decode($open_file);
             if (isset($_POST['sign_in'])) {
-                foreach ($read_file as $key => $value) {
-                    foreach ($read_file->$key as $n => $val) {
-                        if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
-                            // setcookie("chatApp[name]", $val->name);
-                            // setcookie("chatApp[password]", $val->password);
-                            $_SESSION["id"] = $val->chatID;
-                            $_SESSION["username"] = $val->name;
-                            $_SESSION["password"] = $val->password;
-                            header('Location: index.php');
-                        }
+                foreach ($read_file as $key => $val) {
+                    if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
+                        // setcookie("chatApp[name]", $val->name);
+                        // setcookie("chatApp[password]", $val->password);
+                        $_SESSION["id"] = $val->chatID;
+                        $_SESSION["username"] = $val->name;
+                        $_SESSION["password"] = $val->password;
+                        // $user->ToOnline();
+                        header('Location: index.php');
                     }
                 }
             }
         } //end auto login
     }
-    public function updateStatus(){
+    public function updateStatus()
+    {
         $open_file1 = file_get_contents('datas/users.json');
         $read_file1 = json_decode($open_file1);
-        foreach ($read_file as $key => $value) {
-            foreach ($read_file->$key as $n => $val) {
-                if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
-                    $data['name']=$val->name;
-                    $data['email']=$val->email;
-                    $data['password']=$val->password;
-                    $data['chatID']=$val->chatID;
-                    $data['status']="offline";
-                    $data['profile']=$val->profile;
-                    array_push($read_file1[$val->name], $data);
-                    file_put_contents('datas/users.json', json_encode($read_file1, JSON_PRETTY_PRINT));
-                }
+        foreach ($read_file as $key => $val) {
+            if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
+                $data['name'] = $val->name;
+                $data['email'] = $val->email;
+                $data['password'] = $val->password;
+                $data['chatID'] = $val->chatID;
+                $data['status'] = "offline";
+                $data['profile'] = $val->profile;
+                array_push($read_file1[$val->name], $data);
+                file_put_contents('datas/users.json', json_encode($read_file1, JSON_PRETTY_PRINT));
             }
         }
     }
 
     public function Logout()
     {
+        $user = new User("users");
         echo '<form action="index.php" method="POST">
             <input type="submit" name="logout" value="Logout">
         </form>';
         if (isset($_POST['logout'])) {
+            $user->ToOffline();
             session_unset();
             session_destroy();
             header('Location: index.php');
@@ -136,21 +154,42 @@ class User extends File
     {
         $this->name = $name;
     }
+    
+    public function ToOffline(){
+        $read = json_decode(file_get_contents('datas/' . $this->name . '.json'));
+        foreach ($read as $key => $entry) {
+            if ($entry->name == $_SESSION["username"]) {
+                $read[$key]->status = "offline";
+            }
+        }
+        $newJsonString = json_encode($read,JSON_PRETTY_PRINT);
+        file_put_contents('datas/' . $this->name . '.json', $newJsonString);
+    }
+
+    public function ToOnline(){
+        $read = json_decode(file_get_contents('datas/' . $this->name . '.json'));
+        foreach ($read as $key => $entry) {
+            if ($entry->name == $_SESSION["username"]) {
+                $read[$key]->status = "online";
+            }
+        }
+        $newJsonString = json_encode($read,JSON_PRETTY_PRINT);
+        file_put_contents('datas/' . $this->name . '.json', $newJsonString);
+    }
+
     public function getUser($name, $password)
     {
         $open_file = file_get_contents('datas/' . $this->name . '.json');
         $read_file = json_decode($open_file);
-        foreach ($read_file as $key => $value) {
-            foreach ($read_file->$key as $n => $val) {
-                if (($val->name == $name) && ($val->password == $password)) {
-                    echo $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
-                    $this->username = $val->name;
-                    $this->useremail = $val->email;
-                    $this->userpass = $val->password;
-                    $this->userchatid = $val->chatID;
-                    $this->userstatus = $val->status;
-                    $this->userprofile = $val->profile;
-                }
+        foreach ($read_file as $key => $val) {
+            if (($val->name == $name) && ($val->password == $password)) {
+                echo $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
+                $this->username = $val->name;
+                $this->useremail = $val->email;
+                $this->userpass = $val->password;
+                $this->userchatid = $val->chatID;
+                $this->userstatus = $val->status;
+                $this->userprofile = $val->profile;
             }
         }
     }
@@ -158,15 +197,9 @@ class User extends File
     {
         $open_file = file_get_contents('datas/' . $this->name . '.json');
         $read_file = json_decode($open_file);
-        foreach ($read_file as $key => $value) {
-            foreach ($read_file->$key as $n => $val) {
-                echo "<br/>" . $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
-            }
+        foreach ($read_file as $key  => $val) {
+            echo "<br/>" . $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
         }
-    }
-    public function uOnline()
-    {
-        $online = 'online';
     }
     public function Online($online)
     {
@@ -174,20 +207,18 @@ class User extends File
         $getuser = json_decode($open_file);
         $friends = 0;
         $onlines = 0;
-        foreach ($getuser as $key => $value) {
-            foreach ($getuser->$key as $key1 => $val) {
-                $getonline = $val->status;
-                $friends++;
-                if ($getonline == $online) {
-                    $onlines++;
-                    // echo $val->name.$val->email.$val->password.$val->chatID.$val->status.$val->profile;
-                    echo "<br/><div class='nameuseronline'>" . $val->name . '<span class ="online"></span></div>';
-                } else {
-                    echo "<br/><div class='nameuseronline'>" . $val->name . '<span class ="offline"></span></div>';
-                }
+        foreach ($getuser as $key => $val) {
+            $getonline = $val->status;
+            $friends++;
+            if ($getonline == $online) {
+                $onlines++;
+                // echo $val->name.$val->email.$val->password.$val->chatID.$val->status.$val->profile;
+                echo "<br/><div class='nameuseronline'>" . $val->name . '<span class ="online"></span></div>';
+            } else {
+                echo "<br/><div class='nameuseronline'>" . $val->name . '<span class ="offline"></span></div>';
             }
-            echo '<br/><div class="all_online">Friends:' . $friends . ' ~ Online:' . $onlines . '</div>';
         }
+        echo '<br/><div class="all_online">Friends:' . $friends . ' ~ Online:' . $onlines . '</div>';
     }
     public function getStatus()
     {
@@ -230,7 +261,7 @@ class UserChat extends File
         $function = [];
         $open_file = file_get_contents('datas/' . $this->name . '.json');
         $this->data = json_decode($open_file);
-        
+
         foreach ($this->data as $key => $value) {
             if ($id == $key) {
                 foreach ($this->data->$key as $n => $val) {
@@ -278,6 +309,8 @@ class Chat extends File
     // chat to specific group
     public function ChatTo($username, $togroup)
     {
+        $user = new User("users");
+
         $this->togroup = $togroup;
         $date = date("Y/m/d h:i:sa");
         $open_group = file_get_contents('datas/' . $this->name . '.json');
@@ -303,6 +336,7 @@ class Chat extends File
                 </div>
             </form>';
                 if (isset($_POST["send"])) {
+                    $user->ToOnline();
                     if ($_POST['chat'] != '') {
                         $file = file_get_contents('datas/' . $this->name . '.json');
                         $data = json_decode($file, true);
@@ -346,10 +380,8 @@ class Chat extends File
         $open_file = file_get_contents('datas/users.json');
         $read_file = json_decode($open_file);
         $userID = new User($_SESSION["username"]);
-        foreach ($read_file as $key => $value) {
-            foreach ($read_file->$key as $n => $val) {
-                echo "<input type='checkbox' value='$val->chatID' name='$val->chatID'/>$val->name<br/>";
-            }
+        foreach ($read_file as $key => $val) {
+            echo "<input type='checkbox' value='$val->chatID' name='$val->chatID'/>$val->name<br/>";
         }
         echo '      
            <input type="submit" name="submit" value="Create Group Chat"/>
@@ -368,7 +400,7 @@ class Chat extends File
                 array_push($data[$id], $_GET);
             }
             file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
-            
+
             // add name_group to file chats.json
             $filechat = file_get_contents('datas/chats.json');
             $chat = json_decode($filechat, true);
@@ -377,7 +409,7 @@ class Chat extends File
                 array_push($chat[$id], $_GET);
             }
             $change = json_encode($chat);
-            $replace = str_replace('null','[]', $change);
+            $replace = str_replace('null', '[]', $change);
             file_put_contents('datas/chats.json', $replace);
         }
     }
@@ -398,11 +430,23 @@ abstract class File
     }
 }
 $login = new Login();
+$user = new User("users");
 echo '<div class="center">';
 $login->logout();
-$login->updateStatus();
+// $login->updateStatus();
 echo '</div>';
 ?>
 
 <script src="asset/js/jquery.min.js"></script>
-<script src="asset/js/main.js"></script>
+<script>
+    function reload() {
+        $('#reload').load(location.href + ' #time');
+        $('#time').load(location.href + ' #load');
+    }
+
+    window.setTimeout(function() {
+        document.getElementById('update').submit();
+    }, 5000);
+
+    setInterval("reload();", 500);
+</script>
