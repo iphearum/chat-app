@@ -160,7 +160,7 @@
     ?>
 
     <?php
-    class User extends File
+    class User
     {
         public $name;
         private $username;
@@ -208,11 +208,9 @@
                     echo '
                     <img class="profile-image" src="asset/images/'.$val->profile.'" alt="">
                         <span class="settings-tray--right" style="right:10px;position:absolute">
-                        
                     </span>
                     ';
                     echo $val->name;
-                    // echo $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
                     $this->username = $val->name;
                     $this->useremail = $val->email;
                     $this->userpass = $val->password;
@@ -275,7 +273,7 @@
         }
     }
 
-    class UserChat extends File
+    class UserChat
     {
         public $data;
         public $id;
@@ -318,7 +316,7 @@
         }
     }
 
-    class Chat extends File
+    class Chat
     {
         private $name;
         private $chat_name;
@@ -388,6 +386,8 @@
         // show content chat
         public function showchat($togroup)
         {
+            // $userC = new UserChat("user_chat", );
+            // $profile = $userC->profile();
             echo '<div id="reload"><div id="time">';
             $this->togroup = $togroup;
             $open_group = file_get_contents('datas/' . $this->name . '.json');
@@ -397,7 +397,7 @@
                 if ($key == $this->togroup) {
                     echo '<div class="settings-tray">
                         <div class="friend-drawer no-gutters friend-drawer--grey">
-                        <img class="profile-image" src="asset/images/groups/unknow.jpg" alt="">
+                        <img class="profile-image" src="asset/images/89829.jpg" alt="">
                         <div class="text">
                         <h6>' . $key . '</h6>
                         </div>
@@ -434,7 +434,6 @@
                                 </div>
                             </li>';
                         }
-                        // echo "<br/>" . $val->name . ":( " . $val->chat . " )";
                     }
                 }
             }
@@ -444,8 +443,10 @@
         public function AddUserToGroup()
         {
             echo '<div class="create-chat">
-                <form action="index.php" method="POST">
-                <input placeholder="Create group" type="text" name= "name_group"><ul style="padding-top:10px;text-align:left">';
+                <form action="index.php" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                <input placeholder="Create group" type="text" name= "name_group"><ul style="padding-top:10px;text-align:left">
+                <input type="file" name="avatar" accept="image/png, image/jpeg">
+                ';
             $open_file = file_get_contents('datas/users.json');
             $read_file = json_decode($open_file);
             $userID = new User($_SESSION["username"]);
@@ -454,16 +455,19 @@
             }
             echo '</ul><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Create Group Chat"/>
             </form></div>';
-
-
             if (isset($_POST['submit'])) {
+                $target_dir = "asset/images/groups/";
+                $name = rand(1,100000).".jpg";
+                $new_name = $target_dir.$name;
                 $file = file_get_contents('datas/user_chat.json');
                 $data = json_decode($file, true);
-                $_POST['profile']="unknow.jpg";
                 if($_POST['name_group']!=null){
+                    move_uploaded_file($_FILES["avatar"]["tmp_name"], $new_name);
+                    $_GET['profile']=$name;
                     $_GET['name_group'] = $_POST['name_group'];
                     $_POST[$userID->getChatId()] = $userID->getChatId();
                     unset($_POST['name_group']);
+                    unset($_POST['avatar']);
                     unset($_POST['submit']);
                     $user = array_values($_POST);
                     foreach ($user as $id) {
@@ -474,6 +478,7 @@
                     // add name_group to file chats.json
                     $filechat = file_get_contents('datas/chats.json');
                     $chat = json_decode($filechat, true);
+                    unset($_GET['profile']);
                     $chatadd = array_values($_GET);
                     foreach ($chatadd as $id) {
                         array_push($chat[$id], $_GET);
@@ -482,41 +487,7 @@
                     $replace = str_replace('null', '[]', $change);
                     file_put_contents('datas/chats.json', $replace);
                 }
-                // $_POST[$userID->getChatId()] = $userID->getChatId();
-                // unset($_POST['name_group']);
-                // unset($_POST['submit']);
-                // $user = array_values($_POST);
-                // foreach ($user as $id) {
-                //     array_push($data[$id], $_GET);
-                // }
-                // file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
-
-                // // add name_group to file chats.json
-                // $filechat = file_get_contents('datas/chats.json');
-                // $chat = json_decode($filechat, true);
-                // $chatadd = array_values($_GET);
-                // foreach ($chatadd as $id) {
-                //     array_push($chat[$id], $_GET);
-                // }
-                // $change = json_encode($chat);
-                // $replace = str_replace('null', '[]', $change);
-                // file_put_contents('datas/chats.json', $replace);
             }
-        }
-    }
-
-    // abstract class
-    abstract class File
-    {
-        public $name_file;
-        public function __construct($name)
-        {
-            $this->name_file = $name;
-        }
-        public function ReadFile()
-        {
-            $open_file = file_get_contents('datas/' . $this->name . '.json');
-            $this->read_file = json_decode($open_file);
         }
     }
     $login = new Login();

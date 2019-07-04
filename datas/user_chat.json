@@ -9,15 +9,8 @@
             "profile": "unknow.jpg"
         },
         {
-            "name_group": "hello1",
-            "profile": "unknow.jpg"
-        },
-        {
-            "profile": "unknow.jpg",
+            "profile": "89829.jpg",
             "name_group": "newgroup"
-        },
-        {
-            "name_group": "hello"
         }
     ],
     "002": [
@@ -30,11 +23,8 @@
             "profile": "unknow.jpg"
         },
         {
-            "profile": "unknow.jpg",
+            "profile": "89829.jpg",
             "name_group": "newgroup"
-        },
-        {
-            "name_group": "hello"
         }
     ],
     "003": [
@@ -47,13 +37,7 @@
         {
             "name_group": "group1",
             "profile": "unknow.jpg"
-        },
-        {
-            "name_group": 0
         }
     ],
-    "newgroup": null,
-    "Create Group Chat": null,
-    "": null,
-    "unknow.jpg": null
+    "": null
 }
