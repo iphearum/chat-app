@@ -13,8 +13,8 @@
             "profile": "unknow.jpg"
         },
         {
-            "name_group": "newgroup",
-            "profile": "unknow.jpg"
+            "profile": "unknow.jpg",
+            "name_group": "newgroup"
         }
     ],
     "002": [
@@ -25,6 +25,10 @@
         {
             "name_group": "newgroup",
             "profile": "unknow.jpg"
+        },
+        {
+            "profile": "unknow.jpg",
+            "name_group": "newgroup"
         }
     ],
     "003": [
@@ -39,5 +43,6 @@
             "profile": "unknow.jpg"
         }
     ],
-    "": null
+    "newgroup": null,
+    "Create Group Chat": null
 }

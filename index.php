@@ -294,6 +294,7 @@
                             <img class="profile-image" src="asset/images/'.$val->profile.'" alt="">
                             <div class="text">
                                 <h6>' . $val->name_group . '</h6>
+                                <p class="text-muted">Hey, youre arrested!</p>
                             </div>
                             <span class="time text-muted small">13:21</span>
                         </div>';
@@ -452,13 +453,22 @@
 
 
             if (isset($_POST['submit'])) {
+                $user = array_values($_POST);
                 $file = file_get_contents('datas/user_chat.json');
                 $data = json_decode($file, true);
-                $_GET['name_group'] = $_POST['name_group'];
+                $name = '';
+                $_GET['profile']="unknow.jpg";
+                if($_POST['name_group']!=null){
+                    $_GET['name_group'] = $_POST['name_group'];
+                }else{
+                    foreach ($user as $id) {
+                        $name += $data[$id].'';
+                    }
+                    $_GET['name_group']=$name;
+                }
                 $_POST[$userID->getChatId()] = $userID->getChatId();
                 unset($_POST['name_group']);
                 unset($_POST['submit']);
-                $user = array_values($_POST);
                 foreach ($user as $id) {
                     array_push($data[$id], $_GET);
                 }
