@@ -81,6 +81,10 @@
                 // }
             }
             // code need to assign value
+
+
+
+// form login
             else {
                 echo '
                     <div style="position:absolute;top:40%;left:50%;transform: translate(-50%,-50%)">
@@ -453,37 +457,50 @@
 
 
             if (isset($_POST['submit'])) {
-                $user = array_values($_POST);
                 $file = file_get_contents('datas/user_chat.json');
                 $data = json_decode($file, true);
-                $name = '';
-                $_GET['profile']="unknow.jpg";
+                $_POST['profile']="unknow.jpg";
                 if($_POST['name_group']!=null){
                     $_GET['name_group'] = $_POST['name_group'];
-                }else{
+                    $_POST[$userID->getChatId()] = $userID->getChatId();
+                    unset($_POST['name_group']);
+                    unset($_POST['submit']);
+                    $user = array_values($_POST);
                     foreach ($user as $id) {
-                        $name += $data[$id].'';
+                        array_push($data[$id], $_GET);
                     }
-                    $_GET['name_group']=$name;
-                }
-                $_POST[$userID->getChatId()] = $userID->getChatId();
-                unset($_POST['name_group']);
-                unset($_POST['submit']);
-                foreach ($user as $id) {
-                    array_push($data[$id], $_GET);
-                }
-                file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
+                    file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
 
-                // add name_group to file chats.json
-                $filechat = file_get_contents('datas/chats.json');
-                $chat = json_decode($filechat, true);
-                $chatadd = array_values($_GET);
-                foreach ($chatadd as $id) {
-                    array_push($chat[$id], $_GET);
+                    // add name_group to file chats.json
+                    $filechat = file_get_contents('datas/chats.json');
+                    $chat = json_decode($filechat, true);
+                    $chatadd = array_values($_GET);
+                    foreach ($chatadd as $id) {
+                        array_push($chat[$id], $_GET);
+                    }
+                    $change = json_encode($chat);
+                    $replace = str_replace('null', '[]', $change);
+                    file_put_contents('datas/chats.json', $replace);
                 }
-                $change = json_encode($chat);
-                $replace = str_replace('null', '[]', $change);
-                file_put_contents('datas/chats.json', $replace);
+                // $_POST[$userID->getChatId()] = $userID->getChatId();
+                // unset($_POST['name_group']);
+                // unset($_POST['submit']);
+                // $user = array_values($_POST);
+                // foreach ($user as $id) {
+                //     array_push($data[$id], $_GET);
+                // }
+                // file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
+
+                // // add name_group to file chats.json
+                // $filechat = file_get_contents('datas/chats.json');
+                // $chat = json_decode($filechat, true);
+                // $chatadd = array_values($_GET);
+                // foreach ($chatadd as $id) {
+                //     array_push($chat[$id], $_GET);
+                // }
+                // $change = json_encode($chat);
+                // $replace = str_replace('null', '[]', $change);
+                // file_put_contents('datas/chats.json', $replace);
             }
         }
     }
