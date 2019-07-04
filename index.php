@@ -4,20 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
-
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
     <link rel="stylesheet" href="asset/css/theme.css">
 </head>
-
 <body>
 <div class="myclass">
 <div class="row no-gutters">
     <!-- grid 1 chat to group -->
-
-    <?php
-    session_start();
-    class Login
+<?php
+session_start();
+class Login
     {
         private $name;
         private $password;
@@ -45,45 +42,39 @@
                 <div class="settings-tray">';
                 
                 $user->getUser($this->name, $this->password);
-                $user->ToOnline();
+                echo '
+                <style>
+                    .'.$_COOKIE['name_group'].'{
+                        background: #74b9ff;
+                        color:white;
+                        border-radius:10px;
+                    }
+                </style>
+                ';
+                // $user->ToOnline();
                 echo'<div id="show-chat" title="Click me to display content"><i class="material-icons">add</i></div>';
                 echo'<div class="content">';
                 $chat->AddUserToGroup();
                 echo'</div>';
-                
-                // click to chat
-
                 $userC->getGroupUser($user->getChatId());
-
                 echo '</div></div>';
-
                 echo '<div class="col-md-8 fixed-grid2">';
                 $chat->showchat($this->name_group);
-
                 $chat->ChatTo($this->name, $this->name_group);
                 echo '</div>';
 
 
-
-                // echo '<br/><form method="POST">
-                //     <input type="submit" name="update" value="update" id="update">
-                // </form>';
-                // if (isset($_POST['update'])) {
-                //     $user->ToOffline();
-                //     header('Location: index.php');
-                // }
-                // echo '<br/><form method="POST">
-                //     <input type="submit" name="online" value="online">
-                // </form>';
-                // if (isset($_POST['online'])) {
-                //     $user->ToOnline();
-                //     header('Location: index.php');
-                // }
+                echo '<form method="POST" style="display:none"><input style="display:block;position:absolute" type="submit" name="offline" value="offline" id="offline"></form>';
+                echo '<form method="POST" style="display:none"><input type="submit" name="online" value="online"></form>';
+                if (isset($_POST['offline'])) {
+                    $user->ToOffline();
+                    header('Location: index.php');
+                }
+                if (isset($_POST['online'])) {
+                    $user->ToOnline();
+                    header('Location: index.php');
+                }
             }
-            // code need to assign value
-
-
-
 // form login
             else {
                 echo '
@@ -110,29 +101,11 @@
                             $_SESSION["id"] = $val->chatID;
                             $_SESSION["username"] = $val->name;
                             $_SESSION["password"] = $val->password;
-                            // $user->ToOnline();
                             header('Location: index.php');
                         }
                     }
                 }
             } //end auto login
-        }
-        public function updateStatus()
-        {
-            $open_file1 = file_get_contents('datas/users.json');
-            $read_file1 = json_decode($open_file1);
-            foreach ($read_file as $key => $val) {
-                if ($_POST['name'] == ($val->name) && $_POST['password'] == ($val->password)) {
-                    $data['name'] = $val->name;
-                    $data['email'] = $val->email;
-                    $data['password'] = $val->password;
-                    $data['chatID'] = $val->chatID;
-                    $data['status'] = "offline";
-                    $data['profile'] = $val->profile;
-                    array_push($read_file1[$val->name], $data);
-                    file_put_contents('datas/users.json', json_encode($read_file1, JSON_PRETTY_PRINT));
-                }
-            }
         }
 
         public function Logout()
@@ -157,10 +130,8 @@
             return $this->id;
         }
     }
-    ?>
 
-    <?php
-    class User
+class User
     {
         public $name;
         private $username;
@@ -273,7 +244,7 @@
         }
     }
 
-    class UserChat
+class UserChat
     {
         public $data;
         public $id;
@@ -292,7 +263,7 @@
             foreach ($this->data as $key => $value) {
                 if ($id == $key) {
                     foreach ($this->data->$key as $n => $val) {
-                        echo '<div class="friend-drawer friend-drawer--onhover" ONCLICK="' . $val->name_group . '()">
+                        echo '<div class="friend-drawer friend-drawer--onhover '.$val->name_group.'" ONCLICK="' . $val->name_group . '()">
                             <img class="profile-image" src="asset/images/'.$val->profile.'" alt="">
                             <div class="text">
                                 <h6>' . $val->name_group . '</h6>
@@ -309,14 +280,14 @@
             echo '<script>';
             foreach ($function as $chat => $vale) {
                 echo 'function ' . $vale . '(){
-        document.cookie = "name_group=' . $vale . '";
-    }';
+                    document.cookie = "name_group=' . $vale . '";
+                }';
             }
             echo '</script>';
         }
     }
 
-    class Chat
+class Chat
     {
         private $name;
         private $chat_name;
@@ -329,7 +300,6 @@
             $this->id = $id;
             $this->username = $username;
         }
-
         // list all group name
         public function allChat()
         {
@@ -340,7 +310,6 @@
                 echo "<br/>name group <b>$key</b>";
             }
         }
-
         // chat to specific group
         public function ChatTo($username, $togroup)
         {
@@ -382,12 +351,9 @@
                 }
             }
         }
-
         // show content chat
         public function showchat($togroup)
         {
-            // $userC = new UserChat("user_chat", );
-            // $profile = $userC->profile();
             echo '<div id="reload"><div id="time">';
             $this->togroup = $togroup;
             $open_group = file_get_contents('datas/' . $this->name . '.json');
@@ -456,7 +422,7 @@
             echo '</ul><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Create Group Chat"/>
             </form></div>';
             if (isset($_POST['submit'])) {
-                $target_dir = "asset/images/groups/";
+                $target_dir = "asset/images/";
                 $name = rand(1,100000).".jpg";
                 $new_name = $target_dir.$name;
                 $file = file_get_contents('datas/user_chat.json');

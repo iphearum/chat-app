@@ -131,6 +131,9 @@ input:focus {
 }
 .friend-drawer--onhover:hover {
   background: #74b9ff;
+  border-radius:10px;
+}
+.friend-drawer--onhover{
   cursor: pointer;
 }
 .friend-drawer--onhover:hover p,
