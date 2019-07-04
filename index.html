@@ -1,180 +1,192 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>WhatsApp Inspired Bootstrap Chat Direct Messaging App</title>
-  
-  
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
+<style>
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+body {
+	background-color: #f1f1f1;
+	display: flex;
+	font-family: 'Lato', sans-serif;
+	font-size: 0.875rem;
+	font-weight: 400;
+	color: #2c3e50;
+	height: 100vh;
+	overflow-y: hidden;
+}
+/* CUSTOM SCROLLBAR FOR CHATBOX */
+.chats::-webkit-scrollbar { width: 0.125rem; }
+.chats::-webkit-scrollbar-thumb { background: #CFD8DC; }
+.chats::-webkit-scrollbar-thumb:hover { background: #B0BEC5; }
+/* INPUT TEXT PLACEHOLDER CUSTOMIZE */
+::-webkit-input-placeholder { color: #B0BEC5; }
+::-moz-placeholder { color: #B0BEC5; }
+:-ms-input-placeholder { color: #B0BEC5; }
+:-moz-placeholder { color: #B0BEC5; }
 
-      <link rel="stylesheet" href="asset/css/theme.css">
+#viewport { 
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+}
+#viewport > .chatbox {
+	position: relative;
+	display: table;
+	float: left;
+	margin: 1rem;
+	width: 20rem;
+	height: 36rem;
+	background-color: white;
+	box-shadow: 0 0.25rem 2rem rgba(38,50,56, 0.1);
+	overflow: hidden;
+}
+#viewport > .chatbox > .chats {
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;	
+	display: table-cell;
+	vertical-align: bottom;
+	padding: 1rem;
+	margin-bottom: 2.875rem;
+	overflow: auto;
+}
+ul { padding: 0; }
+ul > li {
+	position: relative;
+	list-style: none;
+	display: block;
+	margin-top: 1.5rem;
+	margin: 1rem 0;
+	transition: 0.5s all;
+}
+ul > li:after {
+	display: table;
+	content: '';
+	clear: both;
+}
+.msg {		
+	max-width: 85%;
+	display: inline-block;
+	padding: 0.5rem 1rem;
+	line-height: 1rem;
+	min-height: 2rem;
+	font-size: 0.875rem;
+	border-radius: 1rem;
+	margin-bottom: 0.5rem;
+	word-break: break-all;
+	text-transform: capitalize;
+}
+.msg.him {
+	float: left;
+	background-color: #E91E63;
+	color: #fff;
+	border-bottom-left-radius: 0.125rem;
+}
+.msg.you {
+	float: right;
+	background-color: #ECEFF1;
+	color: #607D8B;
+	border-bottom-right-radius: 0.125rem;
+}
+.msg.load { 
+	background-color: #F8BBD0; 
+	border-bottom-left-radius: 0.125rem;
+}
+.msg > span {
+	font-weight: 500;
+	position: absolute;
+}
+.msg > span.partner {
+	color: #B0BEC5;
+	font-size: 0.5rem;
+	top: 0;
+	font-size: 0.675rem;
+	margin-top: -1rem;
+}
+.msg > span.time {
+	color: #CFD8DC;
+	font-size: 0.5rem;
+	bottom: -0.35rem;
+	display: none;
+}
+.msg:hover span.time { display: block; }
+.msg.him > span { left: 0;	 }
+.msg.you > span {	right: 0; }
+.sendBox {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: white;
+}
+.sendBox input {
+	font-family: 'Lato', sans-serif;
+	font-size: 0.875rem;
+	display: block;
+	width: 100%;
+	border: none;
+	padding: 0.75rem 0.75rem;
+	line-height: 1.25rem;
+	border-top: 0.125rem solid #ECEFF1;
+	transition: 0.5s ease-in-out;
+}
+input:hover,
+input:focus,
+input:active { 
+	outline: none!important; 
+	border-top: 0.125rem solid #E91E63;
+}
 
-  
+/*  LOADING MESSAGE CSS */
+.load .dot {
+	display: inline-block;
+	width: 0.375rem;
+	height: 0.375rem;
+	border-radius: 0.25rem;
+	margin-right: 0.125rem;
+	background-color: rgba(255,255,255,0.75);	
+}
+.load .dot:nth-last-child(1) {animation: loadAnim 1s .2s linear infinite;}
+.load .dot:nth-last-child(2) {animation: loadAnim 1s .4s linear infinite;}
+.load .dot:nth-last-child(3) {animation: loadAnim 1s .6s linear infinite;}
+@keyframes loadAnim {
+    0 {transform: translate(0,0);}
+    25% {transform: translate(0,-0.25rem);}
+    50% {transform: translate(0,0);}
+}</style>
+
 </head>
 
 <body>
-
-  <div class="container">
-  <div class="row no-gutters">
-    <div class="col-md-4 border-right">
-      <div class="settings-tray">
-        <img class="profile-image" src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/60430168_1228575147309374_2946376766538645504_n.jpg?_nc_cat=104&_nc_ht=scontent.fbeg1-1.fna&oh=500b1e9ee57e3ca3d4c9a9ca963f1f3d&oe=5D81D429" alt="">
-        <span class="settings-tray--right">
-          <i class="material-icons">cached</i>
-          <i class="material-icons">message</i>
-          <i class="material-icons">menu</i>
-        </span>
-      </div>
-      <div class="search-box">
-        <div class="input-wrapper">
-          <i class="material-icons">search</i>
-          <input placeholder="Search here" type="text">
-        </div>
-      </div>
-      <div class="friend-drawer friend-drawer--onhover">
-        <img class="profile-image" src="http://www.allmyfriends.it/robocop.jpg" alt="">
-        <div class="text">
-          <h6>Robo Cop</h6>
-          <p class="text-muted">Hey, you're arrested!</p>
-        </div>
-        <span class="time text-muted small">13:21</span>
-      </div>
-      <hr>
-      <div class="friend-drawer friend-drawer--onhover">
-        <img class="profile-image" src="https://www.popcultureshocktoys.com/content/images/thumbs/0006453_optimus-prime-classic-series_600.jpeg" alt="">
-        <div class="text">
-          <h6>Optimus</h6>
-          <p class="text-muted">Wanna grab a beer?</p>
-        </div>
-        <span class="time text-muted small">00:32</span>
-      </div>
-      <hr>
-      <div class="friend-drawer friend-drawer--onhover ">
-        <img class="profile-image" src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fmarkhughes%2Ffiles%2F2016%2F01%2FTerminator-2-1200x873.jpg" alt="">
-        <div class="text">
-          <h6>Skynet</h6>
-          <p class="text-muted">Seen that canned piece of s?</p>
-        </div>
-        <span class="time text-muted small">13:21</span>
-      </div>
-      <hr>
-      <div class="friend-drawer friend-drawer--onhover">
-        <img class="profile-image" src="http://i66.tinypic.com/2qtbqxe.jpg" alt="">
-        <div class="text">
-          <h6>Termy</h6>
-          <p class="text-muted">Im studying spanish...</p>
-        </div>
-        <span class="time text-muted small">13:21</span>
-      </div>
-      <hr>
-      <div class="friend-drawer friend-drawer--onhover">
-        <img class="profile-image" src="https://cdn.vox-cdn.com/thumbor/AYUayCXcqYxHDkR4a1N9azY5c_8=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/9375391/MV5BYjg1Yjk1MTktYzE5Mi00ODkwLWFkZTQtNTYxYTY3ZDVmMWUxXkEyXkFqcGdeQXVyNjUwNzk3NDc_._V1_.jpg" alt="">
-        <div class="text">
-          <h6>Richard</h6>
-          <p class="text-muted">I'm not sure...</p>
-        </div>
-        <span class="time text-muted small">13:21</span>
-      </div>
-      <hr>
-      <div class="friend-drawer friend-drawer--onhover">
-        <img class="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXzQ3HEvJBpgptB48mdCwRt_BHrmNrDwQiIlrjgJbDKihAV_NI" alt="">
-        <div class="text">
-          <h6>XXXXX</h6>
-          <p class="text-muted">Hi, wanna see something?</p>
-        </div>
-        <span class="time text-muted small">13:21</span>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="settings-tray">
-          <div class="friend-drawer no-gutters friend-drawer--grey">
-          <img class="profile-image" src="http://www.allmyfriends.it/robocop.jpg" alt="">
-          <div class="text">
-            <h6>Robo Cop</h6>
-            <p class="text-muted">Layin' down the law since like before Christ...</p>
-          </div>
-          <span class="settings-tray--right">
-            <i class="material-icons">cached</i>
-            <i class="material-icons">message</i>
-            <i class="material-icons">menu</i>
-          </span>
-        </div>
-      </div>
-      <div class="chat-panel">
-        <div class="row no-gutters">
-          <div class="col-md-3">
-            <div class="chat-bubble chat-bubble--left">
-              Hello dude!
+  <div id="viewport">
+    <div class="chatbox">
+      <div class="chats">
+        <ul>
+          <li>
+            <div class="msg you">
+              <span class="partner">User 1</span>
+              Mora Dujonai Rajar Jamai!
+              <span class="time">Jan 19 00:54</span>
             </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3 offset-md-9">
-            <div class="chat-bubble chat-bubble--right">
-              Hello dude!
+          </li>
+          <li>
+            <div class="msg you">
+              <span class="partner">User 1</span>
+              Jamai!
+              <span class="time">Jan 19 00:54</span>
             </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3 offset-md-9">
-            <div class="chat-bubble chat-bubble--right">
-              Hello dude!
-            </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3">
-            <div class="chat-bubble chat-bubble--left">
-              Hello dude!
-            </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3">
-            <div class="chat-bubble chat-bubble--left">
-              Hello dude!
-            </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3">
-            <div class="chat-bubble chat-bubble--left">
-              Hello dude!
-            </div>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-3 offset-md-9">
-            <div class="chat-bubble chat-bubble--right">
-              Hello dude!
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="chat-box-tray">
-              <i class="material-icons">sentiment_very_satisfied</i>
-              <input type="text" placeholder="Type your message here...">
-              <i class="material-icons">mic</i>
-              <i class="material-icons">send</i>
-            </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
+      <div class="sendBox"><input type="text" placeholder="enter next line User..."></div>
     </div>
   </div>
-</div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-
-  
-
-    <script  src="asset/js/script.js"></script>
-
-
-
-
 </body>
 
 </html>

@@ -1,28 +1,42 @@
 {
     "001": [
         {
-            "name_group": "group1"
+            "name_group": "group1",
+            "profile": "unknow.jpg"
         },
         {
-            "name_group": "group2"
+            "name_group": "group2",
+            "profile": "unknow.jpg"
         },
         {
-            "name_group": "hello1"
+            "name_group": "hello1",
+            "profile": "unknow.jpg"
+        },
+        {
+            "name_group": "newgroup",
+            "profile": "unknow.jpg"
         }
     ],
     "002": [
         {
-            "name_group": "group1"
+            "name_group": "group1",
+            "profile": "unknow.jpg"
+        },
+        {
+            "name_group": "newgroup",
+            "profile": "unknow.jpg"
         }
     ],
     "003": [
         {
-            "name_group": "group1"
+            "name_group": "group1",
+            "profile": "unknow.jpg"
         }
     ],
     "004": [
         {
-            "name_group": "group1"
+            "name_group": "group1",
+            "profile": "unknow.jpg"
         }
     ],
     "": null

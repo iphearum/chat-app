@@ -8,27 +8,43 @@
         "profile": "phearum.jpg"
     },
     {
-        "name": "mengthong",
-        "email": "mengthong@admin.com",
+        "name": "david",
+        "email": "david@admin.com",
         "password": "123",
         "chatID": "002",
         "status": "online",
-        "profile": "mengthong.jpg"
+        "profile": "david.jpg"
     },
     {
-        "name": "symeng",
-        "email": "symeng@admin.com",
+        "name": "mesa",
+        "email": "mesa@admin.com",
         "password": "123",
         "chatID": "003",
-        "status": "offline",
-        "profile": "symeng.jpg"
+        "status": "online",
+        "profile": "mesa.jpg"
     },
     {
-        "name": "god",
-        "email": "god@admin.com",
+        "name": "vivat",
+        "email": "vivat@admin.com",
         "password": "123",
         "chatID": "004",
         "status": "offine",
-        "profile": "god.jpg"
+        "profile": "vivat.jpg"
+    },
+    {
+        "name": "senghok",
+        "email": "senghok@admin.com",
+        "password": "123",
+        "chatID": "004",
+        "status": "offine",
+        "profile": "senghok.jpg"
+    },
+    {
+        "name": "phannha",
+        "email": "phannha@admin.com",
+        "password": "123",
+        "chatID": "004",
+        "status": "offine",
+        "profile": "unknow.jpg"
     }
 ]

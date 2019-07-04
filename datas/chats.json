@@ -1,68 +1,55 @@
 {
     "group1": [
         {
-            "chat": "Hello",
-            "name": "fake",
-            "date": "2019\/06\/25",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "Hello",
-            "name": "phearum",
-            "date": "2019\/06\/25",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "hello",
-            "name": "mengthong",
-            "date": "2019\/07\/01",
-            "image": "mengthong.jpg"
-        },
-        {
-            "chat": "dsbjbsdjndskjnbskjhbiuveshbvoukjeshbvikjes",
-            "name": "phearum",
-            "date": "2019\/07\/01",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "hello",
-            "name": "mengthong",
-            "date": "2019\/07\/01",
-            "image": "mengthong.jpg"
-        },
-        {
             "chat": "hello",
             "name": "phearum",
-            "date": "2019\/07\/01",
+            "date": "2019\/07\/04",
             "image": "phearum.jpg"
         },
         {
-            "chat": "hello",
+            "chat": "yes hello",
+            "name": "davit",
+            "date": "2019\/07\/04",
+            "image": "david.jpg"
+        },
+        {
+            "chat": "hellop",
+            "name": "mesa",
+            "date": "2019\/07\/04",
+            "image": "mesa.jpg"
+        },
+        {
+            "chat": "i87654ertyui",
             "name": "phearum",
-            "date": "2019\/07\/01",
+            "date": "2019\/07\/04",
             "image": "phearum.jpg"
+        },
+        {
+            "chat": "what are you typing?",
+            "name": "mesa",
+            "date": "2019\/07\/04",
+            "image": "mesa.jpg"
+        },
+        {
+            "chat": "my chat error",
+            "name": "david",
+            "date": "2019\/07\/04",
+            "image": "david.jpg"
+        },
+        {
+            "chat": "what the hell dude!",
+            "name": "david",
+            "date": "2019\/07\/04",
+            "image": "david.jpg"
+        },
+        {
+            "chat": "what are you typing?",
+            "name": "mesa",
+            "date": "2019\/07\/04",
+            "image": "mesa.jpg"
         }
     ],
-    "group2": [
-        {
-            "chat": "what are you doing",
-            "name": "phearum",
-            "date": "2019\/06\/25",
-            "image": "phearum.jpg"
-        },
-        {
-            "chat": "koo nas",
-            "name": "phearum",
-            "date": "2019\/06\/25",
-            "image": "phearum.jpg"
-        }
-    ],
-    "hello1": [
-        {
-            "chat": "Hello world",
-            "name": "phearum",
-            "date": "2019\/06\/26",
-            "image": "phearum.jpg"
-        }
-    ]
+    "group2": [],
+    "hello1": [],
+    "newgroup": []
 }
