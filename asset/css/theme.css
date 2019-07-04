@@ -15,17 +15,29 @@
   margin:7px 7px 0px 0px;
 
 }
-
+.create-group{
+  width: 100%;
+}
 .content {
   display: none;
 
 }
-
+.useradd{
+  float: left;
+  text-align: left;
+  border-bottom:0.010rem solid black;
+  margin-top:-10px;
+}
 .js .content {
   display: none;
 }
 .create-chat{
   padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+.create-chat form{
+  width: 100%;
 }
 
 .myclass{

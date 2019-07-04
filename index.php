@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
@@ -11,7 +10,7 @@
 <body>
 <div class="myclass">
 <div class="row no-gutters">
-    <!-- grid 1 chat to group -->
+<!-- grid 1 chat to group -->
 <?php
 session_start();
 class Login
@@ -24,20 +23,18 @@ class Login
 
         public function Login()
         {
-            // call class to manage function
+// call class to manage function
             $user = new User("users");
             $userC = new UserChat("user_chat", $user->getChatId());
             $chat = new Chat('chats', $user->getChatId(), $this->name);
-
-            // code auto login
+// code auto login
             if ($_SESSION["username"] != null && $_SESSION["password"] != null) {
                 $this->name = $_SESSION["username"];
                 $this->password = $_SESSION["password"];
                 $this->name_group = $_COOKIE['name_group'];
                 echo '<input type="hidden" id="nameSession" value="' . $this->name . '"/>';
                 echo '<input type="hidden" id="pasSession" value="' . $this->password . '"/>';
-
-                // grid 1
+// grid 1
                 echo '<div class="col-md-4 border-right fixed-grid1">
                 <div class="settings-tray">';
                 
@@ -51,7 +48,7 @@ class Login
                     }
                 </style>
                 ';
-                // $user->ToOnline();
+// $user->ToOnline();
                 echo'<div id="show-chat" title="Click me to display content"><i class="material-icons">add</i></div>';
                 echo'<div class="content">';
                 $chat->AddUserToGroup();
@@ -62,10 +59,9 @@ class Login
                 $chat->showchat($this->name_group);
                 $chat->ChatTo($this->name, $this->name_group);
                 echo '</div>';
-
-
-                echo '<form method="POST" style="display:none"><input style="display:block;position:absolute" type="submit" name="offline" value="offline" id="offline"></form>';
-                echo '<form method="POST" style="display:none"><input type="submit" name="online" value="online"></form>';
+// update status
+                echo '<form method="POST" style="display:none"><input style="display:block;position:absolute" type="submit" name="offline" value="offline" id="offline"></form>
+                <form method="POST" style="display:none"><input type="submit" name="online" value="online"></form>';
                 if (isset($_POST['offline'])) {
                     $user->ToOffline();
                     header('Location: index.php');
@@ -107,7 +103,7 @@ class Login
                 }
             } //end auto login
         }
-
+// logout
         public function Logout()
         {
             $user = new User("users");
@@ -145,7 +141,7 @@ class User
         {
             $this->name = $name;
         }
-
+// update to offline
         public function ToOffline()
         {
             $read = json_decode(file_get_contents('datas/' . $this->name . '.json'));
@@ -157,7 +153,7 @@ class User
             $newJsonString = json_encode($read, JSON_PRETTY_PRINT);
             file_put_contents('datas/' . $this->name . '.json', $newJsonString);
         }
-
+// update to online
         public function ToOnline()
         {
             $read = json_decode(file_get_contents('datas/' . $this->name . '.json'));
@@ -169,7 +165,7 @@ class User
             $newJsonString = json_encode($read, JSON_PRETTY_PRINT);
             file_put_contents('datas/' . $this->name . '.json', $newJsonString);
         }
-
+// get specific user
         public function getUser($name, $password)
         {
             $open_file = file_get_contents('datas/' . $this->name . '.json');
@@ -191,6 +187,7 @@ class User
                 }
             }
         }
+// get all user
         public function allUser()
         {
             $open_file = file_get_contents('datas/' . $this->name . '.json');
@@ -199,6 +196,7 @@ class User
                 echo "<br/>" . $val->name . ", " . $val->email . ", " . $val->password . ", " . $val->chatID . ", " . $val->status . ", " . $val->profile;
             }
         }
+// to see someone online
         public function Online($online)
         {
             $open_file = file_get_contents('datas/' . $this->name . '.json');
@@ -254,6 +252,7 @@ class UserChat
             $this->name = $name;
             $this->id = $id;
         }
+// list all group chat for user
         public function getGroupUser($id)
         {
             $function = [];
@@ -300,7 +299,7 @@ class Chat
             $this->id = $id;
             $this->username = $username;
         }
-        // list all group name
+// list all group name
         public function allChat()
         {
             $open_file = file_get_contents('datas/' . $this->name . '.json');
@@ -310,7 +309,7 @@ class Chat
                 echo "<br/>name group <b>$key</b>";
             }
         }
-        // chat to specific group
+// chat to specific group
         public function ChatTo($username, $togroup)
         {
             $user = new User("users");
@@ -351,7 +350,7 @@ class Chat
                 }
             }
         }
-        // show content chat
+// show content chat
         public function showchat($togroup)
         {
             echo '<div id="reload"><div id="time">';
@@ -405,19 +404,22 @@ class Chat
             }
             echo '</ul></div></div></div></div></div>';
         }
-        // create new chat
+// create new chat
         public function AddUserToGroup()
         {
             echo '<div class="create-chat">
                 <form action="index.php" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
                 <input placeholder="Create group" type="text" name= "name_group"><ul style="padding-top:10px;text-align:left">
-                <input type="file" name="avatar" accept="image/png, image/jpeg">
-                ';
+                <input type="file" name="avatar" accept="image/png, image/jpeg"><ul class="create-group"><br/>';
             $open_file = file_get_contents('datas/users.json');
             $read_file = json_decode($open_file);
             $userID = new User($_SESSION["username"]);
             foreach ($read_file as $key => $val) {
-                echo "<li style='border-bottom:0.010rem solid black;margin-top:-10px'>$val->name<input type='checkbox' value='$val->chatID' name='$val->chatID'/></li>";
+                if($val->name!=$_SESSION["username"]){
+                    echo "<li class='useradd'>|<input style='width:30px;margin:5px 5px;' type='checkbox' value='$val->chatID' name='$val->chatID'/>$val->name |</li>";
+                }else{
+                    echo "<li class='useradd' style='display:none'>|<input style='width:30px;margin:5px 5px;' type='checkbox' value='$val->chatID' name='$val->chatID' checked/>$val->name |</li>";
+                }
             }
             echo '</ul><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Create Group Chat"/>
             </form></div>';
@@ -435,13 +437,14 @@ class Chat
                     unset($_POST['name_group']);
                     unset($_POST['avatar']);
                     unset($_POST['submit']);
+// add name_group to user
                     $user = array_values($_POST);
                     foreach ($user as $id) {
                         array_push($data[$id], $_GET);
                     }
                     file_put_contents('datas/user_chat.json', json_encode($data, JSON_PRETTY_PRINT));
 
-                    // add name_group to file chats.json
+// add name_group to file chats
                     $filechat = file_get_contents('datas/chats.json');
                     $chat = json_decode($filechat, true);
                     unset($_GET['profile']);
@@ -459,7 +462,7 @@ class Chat
     $login = new Login();
     $user = new User("users");
     echo '<div class="center">';
-    $login->logout();
+        $login->logout();
     echo '</div>';
 ?>
 <script src="asset/js/jquery.min.js"></script>

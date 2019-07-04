@@ -12,7 +12,7 @@
         "email": "david@admin.com",
         "password": "123",
         "chatID": "002",
-        "status": "online",
+        "status": "offline",
         "profile": "david.jpg"
     },
     {
@@ -20,7 +20,7 @@
         "email": "mesa@admin.com",
         "password": "123",
         "chatID": "003",
-        "status": "online",
+        "status": "offline",
         "profile": "mesa.jpg"
     },
     {
