@@ -73,20 +73,20 @@ class Login
             }
 // form login
             else {
+                // header('Location: login.php');
                 echo '
-                    <div style="position:absolute;top:40%;left:50%;transform: translate(-50%,-50%)">
+                <div style="position:absolute;top:40%;left:50%;transform: translate(-50%,-50%)">
                         <div style="border:1px solid black; border-radius:5px; padding:40px 30px">
-                            <b>Form Login to ChatApp</b><br/><br/>
+                            <b style="text-align:center;padding:30%">Chat-App</b><br/><br/>
                             <form action="" method="post">
                                 <label>Username</label><br/>
-                                <input type="text" name="name"/><br/>
+                                <input class="form-control" type="text" name="name"/><br/>
                                 <label>Password</label><br/>
-                                <input type="password" name="password"/><br/><br/>
-                                <input type="submit" name="sign_in"/>
+                                <input class="form-control" type="password" name="password"/><br/><br/>
+                                <input class="btn btn-primary" type="submit" name="sign_in"/>
                             </form>
                         </div>
-                    </div>
-                    ';
+                    </div>';
                 $open_file = file_get_contents('datas/users.json');
                 $read_file = json_decode($open_file);
                 if (isset($_POST['sign_in'])) {
@@ -107,14 +107,14 @@ class Login
         public function Logout()
         {
             $user = new User("users");
-            // echo '<form action="index.php" method="POST">
-            //     <input type="submit" name="logout" value="Logout">
-            // </form>';
+            echo '<form action="index.php" method="POST" style="position:absolute;border-radius:10px;border:1px solid blue;top:-10px;right:-10px">
+                <input type="submit" name="logout" value="Logout">
+            </form>';
             if (isset($_POST['logout'])) {
                 $user->ToOffline();
                 session_unset();
                 session_destroy();
-                header('Location: index.php');
+                header('Location: login.php');
             }
         }
         public function getNameUser()
@@ -362,7 +362,7 @@ class Chat
                 if ($key == $this->togroup) {
                     echo '<div class="settings-tray">
                         <div class="friend-drawer no-gutters friend-drawer--grey">
-                        <img class="profile-image" src="asset/images/89829.jpg" alt="">
+                        <img class="profile-image" src="asset/images/52026.jpg" alt="">
                         <div class="text">
                         <h6>' . $key . '</h6>
                         </div>
@@ -461,7 +461,7 @@ class Chat
     }
     $login = new Login();
     $user = new User("users");
-    echo '<div class="center">';
+    echo '<div>';
         $login->logout();
     echo '</div>';
 ?>

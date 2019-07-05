@@ -46,5 +46,14 @@
         "chatID": "004",
         "status": "offine",
         "profile": "unknow.jpg"
+    },
+    {
+        "name": "user",
+        "email": "user@user.com",
+        "password": "123",
+        "sign_in": "Submit",
+        "chatID": "e13125",
+        "profile": "unknow.jpg",
+        "status": "offline"
     }
 ]
