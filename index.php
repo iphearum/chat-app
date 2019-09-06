@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
+    <link rel='stylesheet' href='asset/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='asset/css/material-icons.min.css'>
     <link rel="stylesheet" href="asset/css/theme.css">
 </head>
 <body>
