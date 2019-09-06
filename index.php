@@ -265,13 +265,14 @@ class UserChat
                 if ($id == $key) {
                     foreach ($this->data->$key as $n => $val) {
                         echo '<div class="friend-drawer friend-drawer--onhover '.$val->name_group.'" ONCLICK="' . $val->name_group . '()">
-                            <img class="profile-image" src="asset/images/'.$val->profile.'" alt="">
-                            <div class="text">
-                                <h6>' . $val->name_group . '</h6>
-                                <p class="text-muted">Hey, youre arrested!</p>
-                            </div>
-                            <span class="time text-muted small">13:21</span>
+                        <img class="profile-image" src="asset/images/'.$val->profile.'" alt="">
+                        <div class="text">
+                        <h6>' . $val->name_group . '</h6>
+                        <p class="text-muted">Hey, youre arrested!</p>
+                        </div>
+                        <span class="time text-muted small">13:21</span>
                         </div>';
+                        $_COOKIE["image_chat"] = $val->profile;
                         // echo '<a ONCLICK="' . $val->name_group . '()"><p>' . $val->name_group . '</p></a>';
                         array_push($function, $val->name_group);
                     }
@@ -365,7 +366,7 @@ class Chat
                 if ($key == $this->togroup) {
                     echo '<div class="settings-tray">
                         <div class="friend-drawer no-gutters friend-drawer--grey">
-                        <img class="profile-image" src="asset/images/52026.jpg" alt="">
+                        <img class="profile-image" src="asset/images/'.$_COOKIE["image_chat"].'" alt="">
                         <div class="text">
                         <h6>' . $key . '</h6>
                         </div>
@@ -412,7 +413,7 @@ class Chat
         {
             echo '<div class="create-chat">
                 <form action="index.php" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
-                <input placeholder="Create group" type="text" name= "name_group"><ul style="padding-top:10px;text-align:left">
+                <input placeholder="Create group" type="text" name= "name_group" class="form-control"><ul style="padding-top:10px;text-align:left">
                 <input type="file" name="avatar" accept="image/png, image/jpeg"><ul class="create-group"><br/>';
             $open_file = file_get_contents('datas/users.json');
             $read_file = json_decode($open_file);
@@ -424,8 +425,7 @@ class Chat
                     echo "<li class='useradd' style='display:none'>|<input style='width:30px;margin:5px 5px;' type='checkbox' value='$val->chatID' name='$val->chatID' checked/>$val->name |</li>";
                 }
             }
-            echo '</ul><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Create Group Chat"/>
-            </form></div>';
+            echo '</ul><div style="padding-top:50px;"><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Create Group Chat"/></form></div></div>';
             if (isset($_POST['submit'])) {
                 $target_dir = "asset/images/";
                 $name = rand(1,100000).".jpg";
