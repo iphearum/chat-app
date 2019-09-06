@@ -5,7 +5,8 @@ function reload() {
     $('#refresh_chat').load(location.href + ' #refresh_chat')
     // $('#refresh1').load(location.href + ' #refresh0')
 }
-function offline(){
+
+function offline() {
     $('#offline').click();
 }
 setInterval("reload();", 500);

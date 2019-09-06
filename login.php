@@ -1,16 +1,18 @@
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet' href='asset/css/bootstrap.min.css'>
 <style>
-    .show{
-        display:none;
+    .show {
+        display: none;
     }
-    .center{
-        margin:0% 45%;
-        padding-top:20%;
+
+    .center {
+        margin: 0% 45%;
+        padding-top: 20%;
     }
-    body{
-        background:#ddd;
-        width:100%;
-        height:500px;
+
+    body {
+        background: #ddd;
+        width: 100%;
+        height: 500px;
     }
 </style>
 <?php
@@ -41,18 +43,18 @@ echo '
     </div>
 </div>';
 $open_file = file_get_contents('datas/users.json');
-$read_file = json_decode($open_file,true);
+$read_file = json_decode($open_file, true);
 $user_chat = file_get_contents('datas/user_chat.json');
-$read_chat = json_decode($user_chat,true);
+$read_chat = json_decode($user_chat, true);
 if (isset($_POST['sign_in'])) {
-    $_POST['chatID'] = 'e'.rand(1,100000);
+    $_POST['chatID'] = 'e' . rand(1, 100000);
     $_POST['profile'] = 'unknow.jpg';
     $_POST['status'] = 'offline';
-    array_push($read_file,$_POST);
+    array_push($read_file, $_POST);
     file_put_contents('datas/users.json', json_encode($read_file, JSON_PRETTY_PRINT));
-    
+
     $id = $_POST['chatID'];
-    array_push($read_chat[$id],$id);
+    array_push($read_chat[$id], $id);
     $change = json_encode($read_chat);
     $replace = str_replace('null', '[]', $change);
     file_put_contents('datas/user_chat.json', $replace);
@@ -63,8 +65,8 @@ if (isset($_POST['login'])) {
 }
 ?>
 <script>
-    function signup(){
-        document.getElementById('show').style.display="block";
-        document.getElementById('close').style.display="none";
+    function signup() {
+        document.getElementById('show').style.display = "block";
+        document.getElementById('close').style.display = "none";
     }
 </script>
