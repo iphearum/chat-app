@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>Chat App</title>
     <link rel='stylesheet' href='asset/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='asset/css/material-icons.min.css'>
+    <!-- <link rel='stylesheet' href='asset/css/material-icons.min.css'> -->
+    <link rel="stylesheet" href="asset/iconfont/MaterialIcons-Regular.eot">
     <link rel="stylesheet" href="asset/css/theme.css">
+    <style>
+        @import url('asset/css/iconfont/material-icons.css');
+    </style>
 </head>
 <body>
 <div class="myclass">
