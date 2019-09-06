@@ -257,25 +257,22 @@
                 // list all group chat for user
                 public function getGroupUser($id)
                 {
-                    $function = [];
                     $open_file = file_get_contents('datas/' . $this->name . '.json');
                     $chat_file = file_get_contents('datas/chats.json');
                     $this->data = json_decode($open_file);
+                    echo '<div id="refresh_group">';
                     $chats = json_decode($chat_file);
                     foreach ($this->data as $key => $value) {
                         if ($id == $key) {
                             foreach ($this->data->$key as $n => $val) {
                                 $name = $val->name_group;
                                 $image_group = $val->profile;
-                                echo '<div class="friend-drawer friend-drawer--onhover ' . $name . '" ONCLICK="' . $name . '()">
+                                echo '<div class="friend-drawer ' . $name . '" ONCLICK="' . $name . '()">
                         <img class="profile-image" src="asset/images/' . $image_group . '" alt="">
-                        <div class="text">
-                        <h6>' . $val->name_group . '</h6>
+                        <div class="text"><h6>' . $val->name_group . '</h6>
                         <p class="text-muted">' . end($chats->$name)->chat . '</p>
                         <div style="width=100%;font-size:9px;margin-top:-5px;color:gray"><span>' . end($chats->$name)->name . '</span><span style="position:absolute;right:20px">' . end($chats->$name)->date . '</span></div>
-                        </div>
-                        <span class="time text-muted small">13:21</span>
-                        </div>';
+                        </div><span class="time text-muted small">13:21</span></div>';
                                 echo '<script>function ' . $name . '(){
                             document.cookie = "name_group=' . $name . '";
                             document.cookie = "image_group=' . $image_group . '";
@@ -283,6 +280,7 @@
                             }
                         }
                     }
+                    echo '</div>';
                 }
             }
 

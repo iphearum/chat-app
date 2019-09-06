@@ -1,16 +1,14 @@
 function reload() {
-    // $('#reload').load(location.href + ' #time');
-    // $('#time').load(location.href + ' #reload');
     $('#refresh').load(location.href + ' #refresh')
     $('#refresh_chat').load(location.href + ' #refresh_chat')
-    // $('#refresh1').load(location.href + ' #refresh0')
+    $('#refresh_group').load(location.href + ' #refresh_group')
 }
 
 function offline() {
     $('#offline').click();
 }
 setInterval("reload();", 500);
-setInterval("offline();", 50000);
+setInterval("offline();", 100000);
 
 $("#show-chat").click(function () {
     var $button = $(this);
