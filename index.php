@@ -410,7 +410,7 @@
                 {
                     echo '<div class="create-chat">
                 <form action="index.php" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
-                <input placeholder="Create group" type="text" name= "name_group"><ul style="padding-top:10px;text-align:left">
+                <input placeholder="Create group" type="text" name= "name_group" class="form-control"><ul style="padding-top:10px;text-align:left">
                 <input type="file" name="avatar" accept="image/png, image/jpeg"><ul class="create-group"><br/>';
                     $open_file = file_get_contents('datas/users.json');
                     $read_file = json_decode($open_file);
