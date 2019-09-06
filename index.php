@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>Chat App</title>
     <link rel='stylesheet' href='asset/css/bootstrap.min.css'>
-    <!-- <link rel='stylesheet' href='asset/css/material-icons.min.css'> -->
-    <link rel="stylesheet" href="asset/iconfont/MaterialIcons-Regular.eot">
     <link rel="stylesheet" href="asset/css/theme.css">
     <style>
         @import url('asset/css/iconfont/material-icons.css');
@@ -44,7 +42,7 @@ class Login
                 
                 $user->getUser($this->name, $this->password);
                 echo '
-                <style>
+                <style id="refresh">
                     .'.$_COOKIE['name_group'].'{
                         background: #74b9ff;
                         color:white;
@@ -357,7 +355,8 @@ class Chat
 // show content chat
         public function showchat($togroup)
         {
-            echo '<div id="reload"><div id="time">';
+            // echo '<div id="reload"><div id="time">';
+            echo '<div id="refresh_chat">';
             $this->togroup = $togroup;
             $open_group = file_get_contents('datas/' . $this->name . '.json');
             $read_group = json_decode($open_group);
@@ -406,7 +405,7 @@ class Chat
                     }
                 }
             }
-            echo '</ul></div></div></div></div></div>';
+            echo '</ul></div></div></div></div>';
         }
 // create new chat
         public function AddUserToGroup()

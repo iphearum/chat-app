@@ -1,6 +1,9 @@
 function reload() {
-    $('#reload').load(location.href + ' #time');
-    $('#time').load(location.href + ' #reload');
+    // $('#reload').load(location.href + ' #time');
+    // $('#time').load(location.href + ' #reload');
+    $('#refresh').load(location.href + ' #refresh')
+    $('#refresh_chat').load(location.href + ' #refresh_chat')
+    // $('#refresh1').load(location.href + ' #refresh0')
 }
 function offline(){
     $('#offline').click();
